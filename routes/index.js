@@ -12,7 +12,7 @@ const charactersDelete = require('../controllers/characters/delete');
 router.post('/api/characters/create',  charactersCreate);
 
 // get characters
-router.get('/api/characters/read', charactersRead);
+router.get('/api/characters/read/:page', charactersRead);
 
 // get characters single
 router.get('/api/characters/:id', charactersReadSingle);
