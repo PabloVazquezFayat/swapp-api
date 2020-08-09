@@ -21,10 +21,11 @@ function mapData(data){
     return data.map((d)=>{
         return {
             name: d.name,
-            classification: d.classification,
-            designation: d.designation,
-            averageLifespan: d.average_lifespan,
-            language: d.language,
+            species: undefined,
+            homeWorld: undefined,
+            starship: undefined,
+            vehicles: undefined,
+            imageURL: undefined,
         }
     })
 }
@@ -46,7 +47,7 @@ async function main(url){
         const data = await requestData(url);
         const mappedData = await mapData(data.results);
         
-        seedDataBase(mappedData, Species);
+        seedDataBase(mappedData, Character);
 
         if(data.next){
             main(data.next);
@@ -60,7 +61,7 @@ async function main(url){
 
 }
 
-main('https://swapi.dev/api/species/?page=1');
+main('https://swapi.dev/api/people/?page=1');
 
 //URLs
 // https://swapi.dev/api/people/?page=1
@@ -72,9 +73,6 @@ main('https://swapi.dev/api/species/?page=1');
 //CHARACTER
 // name: d.name,
 // species: undefined,
-// rank: undefined,
-// faction: undefined,
-// weapon: undefined,
 // homeWorld: undefined,
 // starship: undefined,
 // vehicles: undefined,
