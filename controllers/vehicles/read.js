@@ -6,8 +6,6 @@ module.exports = async (req, res, next)=> {
         const resultsPerPage = 10;
         const currentPage = parseInt(req.params.page) - 1;
 
-        console.log(resultsPerPage * currentPage);
-
         const vehicles = await Vehicle.find()
             .skip(resultsPerPage * currentPage)
             .limit(resultsPerPage);

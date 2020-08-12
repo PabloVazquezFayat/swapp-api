@@ -12,7 +12,8 @@ module.exports = async (req, res, next)=> {
             gravity: req.body.gravity,
             terrain: req.body.terrain,
             surfaceWater: req.body.surfaceWater,
-            population: req.body.population
+            population: req.body.population,
+            imageURL: req.body.imageURL
         }
 
         const newPlanetCreated = await Planet.create(newPlanetData);

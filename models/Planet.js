@@ -10,7 +10,8 @@ const planetSchema = new Schema({
     gravity: {type: String},
     terrain: {type: String},
     surfaceWater: {type: String},
-    population: {type: String}
+    population: {type: String},
+    imageURL: {type: String}
 });
 
 const Planet = mongoose.model('Planet', planetSchema);
