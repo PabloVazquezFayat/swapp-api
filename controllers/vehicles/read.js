@@ -1,4 +1,4 @@
-const Character = require('../../models/Character'); 
+const Vehicle = require('../../models/Vehicle'); 
 
 module.exports = async (req, res, next)=> {
     try{
@@ -6,17 +6,19 @@ module.exports = async (req, res, next)=> {
         const resultsPerPage = 10;
         const currentPage = parseInt(req.params.page) - 1;
 
-        const characters = await Character.find()
+        console.log(resultsPerPage * currentPage);
+
+        const vehicles = await Vehicle.find()
             .skip(resultsPerPage * currentPage)
             .limit(resultsPerPage);
         
-        if(!characters || characters.length === 0){
-            res.status(200).json({message: 'No characters found'});
+        if(!vehicles || vehicles.length === 0){
+            res.status(200).json({message: 'No vehicles found'});
             return;
         }
 
-        if(characters){
-            res.status(200).json(characters);
+        if(vehicles){
+            res.status(200).json(vehicles);
             return;
         }
 

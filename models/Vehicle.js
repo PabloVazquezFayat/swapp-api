@@ -13,8 +13,9 @@ const vehicleSchema = new Schema({
     cargoCapacity: {type: String},
     consumables: {type: String},
     vehicleClass: {type: String},
+    imageURL: {type: String}
 });
 
-const Vechicle = mongoose.model('Vechicle', vehicleSchema);
+const Vehicle = mongoose.model('Vehicle', vehicleSchema);
 
-module.exports = Vechicle;
+module.exports = Vehicle;

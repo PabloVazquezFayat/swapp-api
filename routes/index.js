@@ -62,7 +62,7 @@ router.get('/api/planets/:id', planetReadSingle);
 router.put('/api/planets/update', planetUpdate);
 
 // delete planets
-router.delete('/apiplanets/delete', planetDelete);
+router.delete('/api/planets/delete', planetDelete);
 
 
 /* SPECIES ROUTES */

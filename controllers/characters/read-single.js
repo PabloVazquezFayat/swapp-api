@@ -5,9 +5,6 @@ module.exports = async (req, res, next)=> {
 
         const character = await Character.findOne({_id: req.params.id})
             .populate({path: 'species'})
-            .populate({path: 'rank'})
-            .populate({path: 'faction'})
-            .populate({path: 'weapon'})
             .populate({path: 'homeWorld'})
             .populate({path: 'starship'})
             .populate({path: 'vehicles'})

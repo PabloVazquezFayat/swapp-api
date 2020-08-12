@@ -3,13 +3,6 @@ const Planet = require('../../models/Planet');
 module.exports = async (req, res, next)=> {
     try{
 
-        //possible refactor
-        const data = {};
-
-        for (const key in req.body) {
-            data[key] = req.body[key]
-        }
-
         const planetData = {
             name: req.body.name,
             rotationPeriod: req.body.rotationPeriod,

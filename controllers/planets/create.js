@@ -4,15 +4,15 @@ module.exports = async (req, res, next)=> {
     try{
 
         const newPlanetData = {
-            name: {type: String},
-            rotationPeriod: {type: String},
-            orbitalPeriod: {type: String},
-            diameter: {type: String},
-            climate: {type: String},
-            gravity: {type: String},
-            terrain: {type: String},
-            surfaceWater: {type: String},
-            population: {type: String}
+            name: req.body.name,
+            rotationPeriod: req.body.rotationPeriod,
+            orbitalPeriod: req.body.orbitalPeriod,
+            diameter: req.body.diameter,
+            climate: req.body.climate,
+            gravity: req.body.gravity,
+            terrain: req.body.terrain,
+            surfaceWater: req.body.surfaceWater,
+            population: req.body.population
         }
 
         const newPlanetCreated = await Planet.create(newPlanetData);

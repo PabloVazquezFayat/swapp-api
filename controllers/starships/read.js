@@ -1,4 +1,4 @@
-const Planet = require('../../models/Planet'); 
+const Starship = require('../../models/Starship'); 
 
 module.exports = async (req, res, next)=> {
     try{
@@ -6,17 +6,17 @@ module.exports = async (req, res, next)=> {
         const resultsPerPage = 10;
         const currentPage = parseInt(req.params.page) - 1;
 
-        const planets = await Planet.find()
+        const starships = await Starship.find()
             .skip(resultsPerPage * currentPage)
             .limit(resultsPerPage);
         
-        if(!planets || planets.length === 0){
-            res.status(200).json({message: 'No planets found'});
+        if(!starships || starships.length === 0){
+            res.status(200).json({message: 'No starships found'});
             return;
         }
 
-        if(planets){
-            res.status(200).json(planets);
+        if(starships){
+            res.status(200).json(starships);
             return;
         }
 

@@ -14,6 +14,7 @@ const starshipSchema = new Schema({
     consumables: {type: String},
     hyperdriveRating: {type: String},
     starshipClass: {type: String},
+    imageURL: {type: String},
 });
 
 const Starship = mongoose.model('Starship', starshipSchema);

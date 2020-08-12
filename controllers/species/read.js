@@ -1,4 +1,4 @@
-const Planet = require('../../models/Planet'); 
+const Species = require('../../models/Species'); 
 
 module.exports = async (req, res, next)=> {
     try{
@@ -6,17 +6,17 @@ module.exports = async (req, res, next)=> {
         const resultsPerPage = 10;
         const currentPage = parseInt(req.params.page) - 1;
 
-        const planets = await Planet.find()
+        const species = await Species.find()
             .skip(resultsPerPage * currentPage)
             .limit(resultsPerPage);
         
-        if(!planets || planets.length === 0){
-            res.status(200).json({message: 'No planets found'});
+        if(!species || species.length === 0){
+            res.status(200).json({message: 'No species found'});
             return;
         }
 
-        if(planets){
-            res.status(200).json(planets);
+        if(species){
+            res.status(200).json(species);
             return;
         }
 
