@@ -15,10 +15,10 @@ module.exports = async (req, res, next)=> {
             imageURL: req.body.imageURL
         }
 
-        const characterDataUpdated = await Character.findByIdAndUpdate({_id: req.body.id}, characterData);
-
+        const characterDataUpdated = await Character.findByIdAndUpdate({_id: req.body._id}, characterData, {new: true});
+        
         if(characterDataUpdated){
-            res.status(200).json({message: `${req.body.name} has been updated`});
+            res.status(200).json(characterDataUpdated);
         }
 
     }catch(error){

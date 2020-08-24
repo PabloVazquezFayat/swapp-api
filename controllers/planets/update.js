@@ -16,10 +16,10 @@ module.exports = async (req, res, next)=> {
             imageURL: req.body.imageURL
         }
 
-        const planetDataUpdated = await Planet.findByIdAndUpdate({_id: req.body.id}, planetData);
+        const planetDataUpdated = await Planet.findByIdAndUpdate({_id: req.body._id}, planetData);
 
         if(planetDataUpdated){
-            res.status(200).json({message: `${req.body.name} has been updated`});
+            res.status(200).json(planetDataUpdated);
         }
 
     }catch(error){

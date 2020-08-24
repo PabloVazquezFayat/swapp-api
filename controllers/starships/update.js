@@ -19,10 +19,10 @@ module.exports = async (req, res, next)=> {
             imageURL: req.body.imageURL,
         }
 
-        const starshipDataUpdated = await Starship.findByIdAndUpdate({_id: req.body.id}, starshipData);
+        const starshipDataUpdated = await Starship.findByIdAndUpdate({_id: req.body._id}, starshipData);
 
         if(starshipDataUpdated){
-            res.status(200).json({message: `${req.body.name} has been updated`});
+            res.status(200).json(starshipDataUpdated);
         }
 
     }catch(error){

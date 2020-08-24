@@ -11,10 +11,10 @@ module.exports = async (req, res, next)=> {
             language: req.body.language
         }
 
-        const speciesDataUpdated = await Species.findByIdAndUpdate({_id: req.body.id}, speciesData);
+        const speciesDataUpdated = await Species.findByIdAndUpdate({_id: req.body._id}, speciesData);
 
         if(speciesDataUpdated){
-            res.status(200).json({message: `${req.body.name} has been updated`});
+            res.status(200).json(speciesDataUpdated);
         }
 
     }catch(error){

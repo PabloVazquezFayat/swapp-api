@@ -18,10 +18,10 @@ module.exports = async (req, res, next)=> {
             imageURL: req.body.imageURL
         }
 
-        const vehicleDataUpdated = await Vehicle.findByIdAndUpdate({_id: req.body.id}, vehicleData);
+        const vehicleDataUpdated = await Vehicle.findByIdAndUpdate({_id: req.body._id}, vehicleData);
 
         if(vehicleDataUpdated){
-            res.status(200).json({message: `${req.body.name} has been updated`});
+            res.status(200).json(vehicleDataUpdated);
         }
 
     }catch(error){
