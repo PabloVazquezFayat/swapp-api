@@ -11,7 +11,7 @@ module.exports = async (req, res, next)=> {
             language: req.body.language
         }
 
-        const speciesDataUpdated = await Species.findByIdAndUpdate({_id: req.body._id}, speciesData);
+        const speciesDataUpdated = await Species.findByIdAndUpdate({_id: req.body._id}, speciesData, {new: true});
 
         if(speciesDataUpdated){
             res.status(200).json(speciesDataUpdated);
