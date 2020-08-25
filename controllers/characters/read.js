@@ -8,7 +8,8 @@ module.exports = async (req, res, next)=> {
 
         const characters = await Character.find()
             .skip(resultsPerPage * currentPage)
-            .limit(resultsPerPage);
+            .limit(resultsPerPage)
+            .populate({path: 'homeWorld'});
         
         if(!characters || characters.length === 0){
             res.status(200).json({message: 'No characters found'});

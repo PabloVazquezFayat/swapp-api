@@ -15,7 +15,8 @@ module.exports = async (req, res, next)=> {
             imageURL: req.body.imageURL
         }
 
-        const characterDataUpdated = await Character.findByIdAndUpdate({_id: req.body._id}, characterData, {new: true});
+        const characterDataUpdated = await Character.findByIdAndUpdate({_id: req.body._id}, characterData, {new: true})
+        .populate({path: 'homeWorld'});
         
         if(characterDataUpdated){
             res.status(200).json(characterDataUpdated);
