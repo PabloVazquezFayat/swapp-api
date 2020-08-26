@@ -16,7 +16,10 @@ module.exports = async (req, res, next)=> {
         }
 
         const characterDataUpdated = await Character.findByIdAndUpdate({_id: req.body._id}, characterData, {new: true})
-        .populate({path: 'homeWorld'});
+        .populate({path: 'species'})
+        .populate({path: 'homeWorld'})
+        .populate({path: 'starship'})
+        .populate({path: 'vehicles'})
         
         if(characterDataUpdated){
             res.status(200).json(characterDataUpdated);
