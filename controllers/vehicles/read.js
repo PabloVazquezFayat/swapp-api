@@ -5,10 +5,16 @@ module.exports = async (req, res, next)=> {
 
         const resultsPerPage = 10;
         const currentPage = parseInt(req.params.page) - 1;
+        const count = await Vehicle.count();
 
         const vehicles = await Vehicle.find()
             .skip(resultsPerPage * currentPage)
             .limit(resultsPerPage);
+
+        const data = {
+            count: count,
+            data: vehicles
+        }
         
         if(!vehicles || vehicles.length === 0){
             res.status(200).json({message: 'No vehicles found'});
@@ -16,7 +22,7 @@ module.exports = async (req, res, next)=> {
         }
 
         if(vehicles){
-            res.status(200).json(vehicles);
+            res.status(200).json(data);
             return;
         }
 

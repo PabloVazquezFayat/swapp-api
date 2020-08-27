@@ -4,7 +4,8 @@ module.exports = async (req, res, next)=> {
     try{
 
         const resultsPerPage = 10;
-        const currentPage = parseInt(req.params.page) - 1;
+        const currentPage = parseInt(req.params.page) - 1;  
+        const count = await Character.count();
 
         const characters = await Character.find()
             .skip(resultsPerPage * currentPage)
@@ -12,6 +13,11 @@ module.exports = async (req, res, next)=> {
             .populate({path: 'homeWorld'})
             .populate({path: 'vehicles'})
             .populate({path: 'starship'})
+
+        const data = {
+            count: count,
+            data: characters
+        }
         
         if(!characters || characters.length === 0){
             res.status(200).json({message: 'No characters found'});
@@ -19,7 +25,7 @@ module.exports = async (req, res, next)=> {
         }
 
         if(characters){
-            res.status(200).json(characters);
+            res.status(200).json(data);
             return;
         }
 

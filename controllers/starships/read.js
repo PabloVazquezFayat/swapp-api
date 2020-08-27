@@ -5,10 +5,16 @@ module.exports = async (req, res, next)=> {
 
         const resultsPerPage = 10;
         const currentPage = parseInt(req.params.page) - 1;
+        const count = await Starship.count();
 
         const starships = await Starship.find()
             .skip(resultsPerPage * currentPage)
             .limit(resultsPerPage);
+
+        const data = {
+            count: count,
+            data: starships
+        }
         
         if(!starships || starships.length === 0){
             res.status(200).json({message: 'No starships found'});
@@ -16,7 +22,7 @@ module.exports = async (req, res, next)=> {
         }
 
         if(starships){
-            res.status(200).json(starships);
+            res.status(200).json(data);
             return;
         }
 

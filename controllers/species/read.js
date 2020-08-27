@@ -5,10 +5,16 @@ module.exports = async (req, res, next)=> {
 
         const resultsPerPage = 10;
         const currentPage = parseInt(req.params.page) - 1;
+        const count = await Species.count();
 
         const species = await Species.find()
             .skip(resultsPerPage * currentPage)
             .limit(resultsPerPage);
+
+        const data = {
+            count: count,
+            data: species
+        }
         
         if(!species || species.length === 0){
             res.status(200).json({message: 'No species found'});
@@ -16,7 +22,7 @@ module.exports = async (req, res, next)=> {
         }
 
         if(species){
-            res.status(200).json(species);
+            res.status(200).json(data);
             return;
         }
 
