@@ -31,6 +31,13 @@ const vehicleReadSingle = require('../controllers/vehicles/read-single');
 const vehicleUpdate = require('../controllers/vehicles/update');
 const vehicleDelete = require('../controllers/vehicles/delete');
 
+const search = require('../controllers/search/search');
+
+
+/* SEARCH */
+// get search
+router.get('/api/search', search);
+
 /* CHARACTER ROUTES */
 // post create character
 router.post('/api/characters/create',  charactersCreate);
