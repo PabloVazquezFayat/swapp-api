@@ -1,12 +1,32 @@
+require('dotenv').config();
+const mongoose = require('mongoose')
 const axios = require('axios');
+const SearchResult = require('../models/SearchResult');
 
 async function getData() {
-        try{
-            const data = await axios.get('http://localhost:4000/api/characters/read/1');
-            return(data.data);
-        }catch(error){
-            console.log(error);
-        }
+    try{
+
+        const data = await axios.all([
+            axios.get('http://localhost:4000/api/characters/read/1'),
+            axios.get('http://localhost:4000/api/characters/read/2'),
+            axios.get('http://localhost:4000/api/characters/read/3'),
+            axios.get('http://localhost:4000/api/characters/read/4'),
+            axios.get('http://localhost:4000/api/characters/read/5'),
+            axios.get('http://localhost:4000/api/characters/read/6'),
+            axios.get('http://localhost:4000/api/characters/read/7'),
+            axios.get('http://localhost:4000/api/characters/read/8'),
+            axios.get('http://localhost:4000/api/characters/read/9'),
+        ]);
+
+        const mappedData = data.map((d)=>{
+            return d.data.data;
+        })
+
+        return [].concat.apply([], mappedData);
+
+    }catch(error){
+        return console.log(error);
+    }
 }
 
 function parseCharacterData(characterData) {
@@ -40,27 +60,27 @@ function parseCharacterData(characterData) {
 
 }
 
-async function main() {
-    var data = await getData();
-    var parsedData = [];
+function seedDataBase(data, model){
+    mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true });
 
-    data.data.forEach(el => {
-        parsedData.push(parseCharacterData(el));
+    model.create(data, (err) => {
+        if(err){ throw(err) }
+        console.log(`Created ${data.length} entries`)
+        mongoose.connection.close();
+    });
+}
+
+async function main() {
+
+    let data = await getData();
+    let parsedData = data.map(el => {
+        return parseCharacterData(el);
     });
 
-    console.log(parsedData);
+    seedDataBase(parsedData, SearchResult);
 }
 
 main();
 
 
-// data += characterData.name;
-// data += characterData.homeWorld.name;
-// data += characterData.homeWorld.rotationPeriod;
-// data += characterData.homeWorld.orbitalPeriod;
-// data += characterData.homeWorld.diameter;
-// data += characterData.homeWorld.climate;
-// data += characterData.homeWorld.gravity;
-// data += characterData.homeWorld.terrain;
-// data += characterData.homeWorld.surfaceWater;
-// data += characterData.homeWorld.population;
+// FINISH MAPPING THE REST OF THE DATA INTO SEARCH RESULTS
