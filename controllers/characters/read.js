@@ -13,6 +13,7 @@ module.exports = async (req, res, next)=> {
             .populate({path: 'homeWorld'})
             .populate({path: 'vehicles'})
             .populate({path: 'starship'})
+            .populate({path: 'species'})
 
         const data = {
             count: count,
