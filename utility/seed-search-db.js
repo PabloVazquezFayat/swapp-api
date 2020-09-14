@@ -45,6 +45,22 @@ function parseCharacterData(characterData) {
 
 }
 
+function parsePlanetData(planetData){
+    //logic here...
+}
+
+function parseSpeciesData(speciesData){
+    //logic here...
+}
+
+function parseStarshipData(starshipData){
+    //logic here...
+}
+
+function parseVehicleData(vehicleData){
+    //logic here...
+}
+
 function seedDataBase(data, model){
     mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true });
 
