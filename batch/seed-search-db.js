@@ -3,27 +3,12 @@ const mongoose = require('mongoose')
 const axios = require('axios');
 const SearchResult = require('../models/SearchResult');
 
-async function getData() {
+async function getData(paths) {
     try{
-
-        const data = await axios.all([
-            axios.get('http://localhost:4000/api/characters/read/1'),
-            axios.get('http://localhost:4000/api/characters/read/2'),
-            axios.get('http://localhost:4000/api/characters/read/3'),
-            axios.get('http://localhost:4000/api/characters/read/4'),
-            axios.get('http://localhost:4000/api/characters/read/5'),
-            axios.get('http://localhost:4000/api/characters/read/6'),
-            axios.get('http://localhost:4000/api/characters/read/7'),
-            axios.get('http://localhost:4000/api/characters/read/8'),
-            axios.get('http://localhost:4000/api/characters/read/9'),
-        ]);
-
-        const mappedData = data.map((d)=>{
-            return d.data.data;
-        })
-
+        const mappedPaths = paths.map(path =>  axios.get(path));
+        const data = await axios.all(mappedPaths);
+        const mappedData = data.map( d => d.data.data);
         return [].concat.apply([], mappedData);
-
     }catch(error){
         return console.log(error);
     }
@@ -72,7 +57,18 @@ function seedDataBase(data, model){
 
 async function main() {
 
-    let data = await getData();
+    let data = await getData([
+        'http://localhost:4000/api/characters/read/1',
+        'http://localhost:4000/api/characters/read/2',
+        'http://localhost:4000/api/characters/read/3',
+        'http://localhost:4000/api/characters/read/4',
+        'http://localhost:4000/api/characters/read/5',
+        'http://localhost:4000/api/characters/read/6',
+        'http://localhost:4000/api/characters/read/7',
+        'http://localhost:4000/api/characters/read/8',
+        'http://localhost:4000/api/characters/read/9'
+    ]);
+
     let parsedData = data.map(el => {
         return parseCharacterData(el);
     });
@@ -81,6 +77,3 @@ async function main() {
 }
 
 main();
-
-
-// FINISH MAPPING THE REST OF THE DATA INTO SEARCH RESULTS
