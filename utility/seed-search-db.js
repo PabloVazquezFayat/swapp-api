@@ -5,7 +5,7 @@ const SearchResult = require('../models/SearchResult');
 
 async function getData(paths) {
     try{
-        const mappedPaths = paths.map(path =>  axios.get(path));
+        const mappedPaths = paths.map(path => axios.get(path));
         const data = await axios.all(mappedPaths);
         const mappedData = data.map( d => d.data.data);
         return [].concat.apply([], mappedData);
@@ -46,7 +46,23 @@ function parseCharacterData(characterData) {
 }
 
 function parsePlanetData(planetData){
-    //logic here...
+    
+    let data = '';
+    let url = 'http://localhost:4000/api/planets/' + planetData._id;
+
+    if(planetData.name){
+        data += ` ${planetData.name}`;
+    }
+
+    if(planetData.climate){
+        data += ` ${planetData.climate}`;
+    }
+
+    if(planetData.terrain){
+        data += ` ${planetData.terrain}`;
+    }
+
+    return {data: data, url: url}
 }
 
 function parseSpeciesData(speciesData){
@@ -73,23 +89,82 @@ function seedDataBase(data, model){
 
 async function main() {
 
-    let data = await getData([
-        'http://localhost:4000/api/characters/read/1',
-        'http://localhost:4000/api/characters/read/2',
-        'http://localhost:4000/api/characters/read/3',
-        'http://localhost:4000/api/characters/read/4',
-        'http://localhost:4000/api/characters/read/5',
-        'http://localhost:4000/api/characters/read/6',
-        'http://localhost:4000/api/characters/read/7',
-        'http://localhost:4000/api/characters/read/8',
-        'http://localhost:4000/api/characters/read/9'
-    ]);
+    let endpoints = {
+        chacacters: [
+            'http://localhost:4000/api/characters/read/1',
+            'http://localhost:4000/api/characters/read/2',
+            'http://localhost:4000/api/characters/read/3',
+            'http://localhost:4000/api/characters/read/4',
+            'http://localhost:4000/api/characters/read/5',
+            'http://localhost:4000/api/characters/read/6',
+            'http://localhost:4000/api/characters/read/7',
+            'http://localhost:4000/api/characters/read/8',
+            'http://localhost:4000/api/characters/read/9',
+        ],
+        planets: [
+            'http://localhost:4000/api/planets/read/1',
+            'http://localhost:4000/api/planets/read/2',
+            'http://localhost:4000/api/planets/read/3',
+            'http://localhost:4000/api/planets/read/4',
+            'http://localhost:4000/api/planets/read/5',
+            'http://localhost:4000/api/planets/read/6'
+        ],
+        species: [
+            'http://localhost:4000/api/species/read/1',
+            'http://localhost:4000/api/species/read/2',
+            'http://localhost:4000/api/species/read/3',
+            'http://localhost:4000/api/species/read/4'
+        ],
+        starships: [
+            'http://localhost:4000/api/starships/read/1',
+            'http://localhost:4000/api/starships/read/2',
+            'http://localhost:4000/api/starships/read/3',
+            'http://localhost:4000/api/starships/read/4'
+        ],
+        vehicles: [
+            'http://localhost:4000/api/vehicles/read/1',
+            'http://localhost:4000/api/vehicles/read/2',
+            'http://localhost:4000/api/vehicles/read/3',
+            'http://localhost:4000/api/vehicles/read/4'
+        ]
+    }
 
-    let parsedData = data.map(el => {
-        return parseCharacterData(el);
-    });
+    let data = {
+        chacacters: await getData(endpoints.chacacters),
+        planets: await getData(endpoints.planets),
+        species: await getData(endpoints.species),
+        starships: await getData(endpoints.starshipClass),
+        vehicles: await getData(endpoints.vehicleClass),
+    };
 
-    seedDataBase(parsedData, SearchResult);
+    let parsedData = [];
+
+    for (const key in data) {
+        if (key === 'characters') {
+            let characterData = data.map( el => parseCharacterData(el));
+            parsedData.push(characterData);
+        }
+        if (key === 'planets') {
+            let planetData = data.map( el => parsePlanetData(el));
+            parsedData.push(planetData);
+        }
+        if (key === 'species') {
+            let speciesData = data.map( el => parseSpeciesData(el));
+            parsedData.push(speciesData);
+        }
+        if (key === 'starships') {
+            let starshipData = data.map( el => parseStarshipData(el));
+            parsedData.push(starshipData);
+        }
+        if (key === 'vehicles') {
+            let vehicleData = data.map( el => parseVehicleData(el));
+            parsedData.push(vehicleData);
+        }
+    }
+
+    allData = [].concat.apply([], allData);
+
+    seedDataBase(allData, SearchResult);
 }
 
 main();
