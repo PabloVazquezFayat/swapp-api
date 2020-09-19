@@ -90,7 +90,7 @@ function seedDataBase(data, model){
 async function main() {
 
     let endpoints = {
-        chacacters: [
+        characters: [
             'http://localhost:4000/api/characters/read/1',
             'http://localhost:4000/api/characters/read/2',
             'http://localhost:4000/api/characters/read/3',
@@ -130,39 +130,39 @@ async function main() {
     }
 
     let data = {
-        chacacters: await getData(endpoints.chacacters),
+        characters: await getData(endpoints.characters),
         planets: await getData(endpoints.planets),
         species: await getData(endpoints.species),
-        starships: await getData(endpoints.starshipClass),
-        vehicles: await getData(endpoints.vehicleClass),
+        starships: await getData(endpoints.starships),
+        vehicles: await getData(endpoints.vehicles),
     };
 
     let parsedData = [];
 
     for (const key in data) {
         if (key === 'characters') {
-            let characterData = data.map( el => parseCharacterData(el));
+            let characterData = data[key].map( el => parseCharacterData(el));
             parsedData.push(characterData);
         }
         if (key === 'planets') {
-            let planetData = data.map( el => parsePlanetData(el));
+            let planetData = data[key].map( el => parsePlanetData(el));
             parsedData.push(planetData);
         }
-        if (key === 'species') {
-            let speciesData = data.map( el => parseSpeciesData(el));
-            parsedData.push(speciesData);
-        }
-        if (key === 'starships') {
-            let starshipData = data.map( el => parseStarshipData(el));
-            parsedData.push(starshipData);
-        }
-        if (key === 'vehicles') {
-            let vehicleData = data.map( el => parseVehicleData(el));
-            parsedData.push(vehicleData);
-        }
+        // if (key === 'species') {
+        //     let speciesData = data[key].map( el => parseSpeciesData(el));
+        //     parsedData.push(speciesData);
+        // }
+        // if (key === 'starships') {
+        //     let starshipData = data[key].map( el => parseStarshipData(el));
+        //     parsedData.push(starshipData);
+        // }
+        // if (key === 'vehicles') {
+        //     let vehicleData = data[key].map( el => parseVehicleData(el));
+        //     parsedData.push(vehicleData);
+        // }
     }
 
-    allData = [].concat.apply([], allData);
+    let allData = [].concat.apply([], parsedData);
 
     seedDataBase(allData, SearchResult);
 }
